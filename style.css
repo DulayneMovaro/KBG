@@ -1,0 +1,39 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  margin: 20px;
+}
+
+/* Phone-only styles */
+@media (max-width: 480px) {
+  body { background-color: #f0f4ff; color: #003366; }
+  input, button {
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    margin: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #003366;
+    background-color: #ffffff;
+    color: #003366;
+  }
+  button { cursor: pointer; }
+  svg {
+    max-width: 90%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border: 2px solid #003366;
+    background-color: #ffffff;
+  }
+}
+
+/* Desktop / large screen message */
+@media (min-width: 481px) {
+  body { text-align: center; font-size: 1.2rem; margin-top: 50px; }
+  #input, button, #barcode-container { display: none; }
+  body::before {
+    content: "This app is designed for mobile phones only.";
+    display: block;
+    color: #003366;
+  }
+}
