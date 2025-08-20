@@ -1,6 +1,6 @@
 {
   "name": "Offline Barcode Generator",
-  "short_name": "BarcodePWA",
+  "short_name": "KBG",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#f0f4ff",
