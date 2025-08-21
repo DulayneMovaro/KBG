@@ -9,41 +9,26 @@ const urlsToCache = [
   './icons/icon-512.png'
 ];
 
-// Install: cache all files
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
-    })
+    caches.keys().then(keys => Promise.all(keys.map(k=>caches.delete(k))))
+    .then(()=>caches.open(CACHE_NAME))
+    .then(cache=>cache.addAll(urlsToCache))
+    .then(()=>self.skipWaiting())
   );
-  self.skipWaiting(); // activate immediately
 });
 
-// Activate: clean up old caches
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.map(key => {
-        if(key !== CACHE_NAME) return caches.delete(key);
-      })
-    ))
-  );
-  self.clients.claim();
+  event.waitUntil(clients.claim());
 });
 
-// Fetch: offline-first with network fallback
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).then(response => {
-        // Update cache with latest response
-        return caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, response.clone());
-          return response;
-        });
-      });
-    }).catch(() => {
-      // Optional: fallback page or image
-    })
+    fetch(event.request)
+      .then(resp => { 
+        if(event.request.method==='GET'){ const respClone=resp.clone(); caches.open(CACHE_NAME).then(c=>c.put(event.request, respClone)); }
+        return resp;
+      })
+      .catch(()=>caches.match(event.request))
   );
 });
