@@ -1,7 +1,7 @@
 {
   "name": "Offline Barcode Generator",
   "short_name": "KBG",
-  "id": "/index.html",
+  "id": "https://dulaynemovaro.github.io/KBG/index.html",
   "start_url": "https://dulaynemovaro.github.io/KBG/index.html",
   "display": "standalone",
   "background_color": "#f0f4ff",
